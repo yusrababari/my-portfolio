@@ -375,6 +375,194 @@
     font-size:12px; color:var(--text-faint); flex-wrap:wrap; gap:12px;
   }
 
+  /* ---------- EDGE DECORATIONS (blank margins either side of .wrap) ---------- */
+  .edge-fx{
+    position:fixed; top:0; bottom:0;
+    width:max(0px, calc((100vw - 960px) / 2));
+    pointer-events:none; z-index:1;
+    overflow:hidden;
+    display:none;
+  }
+  .edge-fx.left{ left:0; }
+  .edge-fx.right{ right:0; }
+  @media (min-width:1180px){
+    .edge-fx{ display:block; }
+  }
+
+  .edge-line{
+    position:absolute; top:0; bottom:0; left:50%;
+    width:1px;
+    background:repeating-linear-gradient(
+      to bottom,
+      var(--line) 0px, var(--line) 6px,
+      transparent 6px, transparent 14px
+    );
+    opacity:0.6;
+  }
+  .edge-line::after{
+    content:'';
+    position:absolute; left:-2px; top:-140px;
+    width:5px; height:120px;
+    background:linear-gradient(to bottom, transparent, var(--rose-glow) 45%, var(--rose) 50%, var(--rose-glow) 55%, transparent);
+    filter:blur(1px);
+    animation:edge-travel 7s linear infinite;
+  }
+  .edge-fx.right .edge-line::after{ animation-delay:-3.5s; }
+
+  @keyframes edge-travel{
+    0%{ top:-140px; opacity:0; }
+    8%{ opacity:1; }
+    92%{ opacity:1; }
+    100%{ top:100%; opacity:0; }
+  }
+
+  .edge-spark{
+    position:absolute;
+    width:4px; height:4px;
+    background:var(--rose);
+    box-shadow:0 0 6px var(--rose-glow);
+    opacity:0;
+    bottom:-5%;
+    animation:edge-drift linear infinite;
+  }
+  .edge-spark.s1{ left:15%; animation-duration:9s;   animation-delay:0.5s; }
+  .edge-spark.s2{ left:70%; width:3px; height:3px; animation-duration:12s; animation-delay:3s; }
+  .edge-spark.s3{ left:45%; width:2px; height:2px; animation-duration:8s;  animation-delay:5.5s; }
+  .edge-spark.s4{ left:80%; width:3px; height:3px; animation-duration:14s; animation-delay:1.8s; }
+  .edge-spark.s5{ left:35%; width:2px; height:2px; animation-duration:10.5s; animation-delay:7s; }
+
+  @keyframes edge-drift{
+    0%{ bottom:-5%; opacity:0; transform:translateX(0) scale(0.6); }
+    10%{ opacity:0.9; }
+    50%{ transform:translateX(8px) scale(1); }
+    90%{ opacity:0.6; }
+    100%{ bottom:105%; opacity:0; transform:translateX(-6px) scale(0.6); }
+  }
+
+  .edge-plus{
+    position:absolute;
+    width:9px; height:9px;
+    opacity:0;
+    animation:edge-blink-fade 6s ease-in-out infinite;
+  }
+  .edge-plus::before, .edge-plus::after{
+    content:''; position:absolute; background:var(--rose-dim);
+  }
+  .edge-plus::before{ left:4px; top:0; width:1px; height:9px; }
+  .edge-plus::after{ top:4px; left:0; width:9px; height:1px; }
+  .edge-plus.p1{ left:30%; top:18%; animation-delay:0.4s; }
+  .edge-plus.p2{ left:65%; top:62%; animation-delay:3.2s; }
+
+  @keyframes edge-blink-fade{
+    0%,100%{ opacity:0; transform:scale(0.7) rotate(0deg); }
+    50%{ opacity:0.85; transform:scale(1) rotate(45deg); }
+  }
+
+  /* corner viewfinder marks */
+  .corner-mark{
+    position:fixed;
+    width:22px; height:22px;
+    border-color:var(--rose-dim);
+    z-index:2;
+    pointer-events:none;
+    opacity:0.5;
+    animation:corner-pulse 4s ease-in-out infinite;
+  }
+  .corner-mark.tl{ top:14px; left:14px; border-top:1px solid; border-left:1px solid; }
+  .corner-mark.tr{ top:14px; right:14px; border-top:1px solid; border-right:1px solid; animation-delay:1s; }
+  .corner-mark.bl{ bottom:14px; left:14px; border-bottom:1px solid; border-left:1px solid; animation-delay:2s; }
+  .corner-mark.br{ bottom:14px; right:14px; border-bottom:1px solid; border-right:1px solid; animation-delay:3s; }
+
+  @keyframes corner-pulse{
+    0%,100%{ opacity:0.3; }
+    50%{ opacity:0.85; }
+  }
+  @media (max-width:640px){
+    .corner-mark{ display:none; }
+  }
+
+  /* radar ping rings */
+  .edge-ring{
+    position:absolute;
+    width:26px; height:26px;
+    border:1px solid var(--rose);
+    border-radius:50%;
+    opacity:0;
+    animation:edge-ping 5s ease-out infinite;
+  }
+  .edge-ring.r1{ left:25%; top:22%; animation-delay:0.8s; }
+  .edge-ring.r2{ left:60%; top:68%; animation-delay:3.4s; }
+
+  @keyframes edge-ping{
+    0%{ transform:scale(0.3); opacity:0; }
+    12%{ opacity:0.7; }
+    100%{ transform:scale(2.2); opacity:0; }
+  }
+
+  /* rotating hollow diamonds, slow upward drift */
+  .edge-diamond{
+    position:absolute;
+    width:10px; height:10px;
+    border:1px solid var(--rose-dim);
+    bottom:-5%;
+    opacity:0;
+    animation:edge-diamond-drift linear infinite;
+  }
+  .edge-diamond.d1{ left:55%; animation-duration:17s; animation-delay:1s; }
+  .edge-diamond.d2{ left:20%; width:8px; height:8px; animation-duration:21s; animation-delay:9s; }
+
+  @keyframes edge-diamond-drift{
+    0%{ bottom:-5%; opacity:0; transform:rotate(0deg); }
+    10%{ opacity:0.55; }
+    90%{ opacity:0.4; }
+    100%{ bottom:105%; opacity:0; transform:rotate(220deg); }
+  }
+
+  /* drifting binary digits, mono font, AI-flavoured */
+  .edge-code{
+    position:absolute;
+    font-family:var(--mono);
+    font-size:11px;
+    letter-spacing:1px;
+    color:var(--text-faint);
+    bottom:-5%;
+    opacity:0;
+    animation:edge-code-drift linear infinite;
+  }
+  .edge-code.c1{ left:12%; animation-duration:19s; animation-delay:2.5s; }
+  .edge-code.c2{ left:62%; animation-duration:23s; animation-delay:11s; }
+
+  @keyframes edge-code-drift{
+    0%{ bottom:-5%; opacity:0; }
+    12%{ opacity:0.55; }
+    88%{ opacity:0.4; }
+    100%{ bottom:105%; opacity:0; }
+  }
+
+  /* drifting pixel heart, echoes hero robot */
+  .edge-heart{
+    position:absolute;
+    width:11px; height:10px;
+    background:var(--pink-soft, #ffc2d9);
+    clip-path:polygon(50% 15%, 61% 5%, 75% 5%, 90% 20%, 90% 35%, 50% 85%, 10% 35%, 10% 20%, 25% 5%, 39% 5%);
+    bottom:-5%;
+    opacity:0;
+    animation:edge-heart-drift linear infinite, px-heartbeat 1.4s ease-in-out infinite;
+    filter:drop-shadow(0 0 4px var(--rose-glow));
+  }
+  .edge-heart.h1{ left:42%; animation-duration:26s, 1.4s; animation-delay:6s, 6s; }
+
+  @keyframes edge-heart-drift{
+    0%{ bottom:-5%; opacity:0; }
+    10%{ opacity:0.85; }
+    90%{ opacity:0.6; }
+    100%{ bottom:105%; opacity:0; }
+  }
+
+  @media (max-width:1179px){
+    .edge-ring, .edge-diamond, .edge-code, .edge-heart{ display:none; }
+  }
+
   @media (prefers-reduced-motion: reduce){
     *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
   }
@@ -382,6 +570,46 @@
 </style>
 </head>
 <body>
+
+<div class="edge-fx left" aria-hidden="true">
+  <div class="edge-line"></div>
+  <span class="edge-spark s1"></span>
+  <span class="edge-spark s2"></span>
+  <span class="edge-spark s3"></span>
+  <span class="edge-spark s4"></span>
+  <span class="edge-spark s5"></span>
+  <span class="edge-plus p1"></span>
+  <span class="edge-plus p2"></span>
+  <span class="edge-ring r1"></span>
+  <span class="edge-ring r2"></span>
+  <span class="edge-diamond d1"></span>
+  <span class="edge-diamond d2"></span>
+  <span class="edge-code c1">01</span>
+  <span class="edge-code c2">10</span>
+  <span class="edge-heart h1"></span>
+</div>
+<div class="edge-fx right" aria-hidden="true">
+  <div class="edge-line"></div>
+  <span class="edge-spark s1"></span>
+  <span class="edge-spark s2"></span>
+  <span class="edge-spark s3"></span>
+  <span class="edge-spark s4"></span>
+  <span class="edge-spark s5"></span>
+  <span class="edge-plus p1"></span>
+  <span class="edge-plus p2"></span>
+  <span class="edge-ring r1"></span>
+  <span class="edge-ring r2"></span>
+  <span class="edge-diamond d1"></span>
+  <span class="edge-diamond d2"></span>
+  <span class="edge-code c1">10</span>
+  <span class="edge-code c2">01</span>
+  <span class="edge-heart h1"></span>
+</div>
+
+<div class="corner-mark tl" aria-hidden="true"></div>
+<div class="corner-mark tr" aria-hidden="true"></div>
+<div class="corner-mark bl" aria-hidden="true"></div>
+<div class="corner-mark br" aria-hidden="true"></div>
 
 <header>
   <nav class="wrap">
