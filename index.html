@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yusra — AI Engineer</title>
+<meta name="theme-color" content="#0a0708">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,600;1,9..144,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --bg:        #0a0708;
+    --surface:   #170d11;
+    --surface-2: #1f1116;
+    --line:      #34181f;
+    --rose:      #ff2f6d;
+    --rose-dim:  #b8264f;
+    --rose-glow: rgba(255,47,109,0.35);
+    --text:      #f3e9ec;
+    --text-dim:  #b39aa1;
+    --text-faint:#6e5560;
+    --display: 'Fraunces', serif;
+    --mono: 'JetBrains Mono', monospace;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior:smooth; }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--mono);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  body::before{
+    content:'';
+    position:fixed; inset:0;
+    background:
+      radial-gradient(ellipse 60% 40% at 15% 0%, var(--rose-glow), transparent 60%),
+      radial-gradient(ellipse 50% 30% at 100% 10%, rgba(255,47,109,0.12), transparent 60%);
+    opacity:0.5;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  ::selection{ background:var(--rose); color:#0a0708; }
+
+  a{ color:inherit; text-decoration:none; }
+
+  .wrap{ max-width:960px; margin:0 auto; padding:0 32px; position:relative; z-index:1; }
+
+  /* focus visibility */
+  a:focus-visible, button:focus-visible{
+    outline:2px solid var(--rose);
+    outline-offset:3px;
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(10,7,8,0.72);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:64px;
+  }
+  .logo{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:19px;
+    letter-spacing:0.3px;
+  }
+  .logo span{ color:var(--rose); }
+  .navlinks{ display:flex; gap:28px; font-size:12.5px; letter-spacing:0.5px; text-transform:uppercase; }
+  .navlinks a{
+    color:var(--text-dim);
+    transition:color .2s ease;
+    position:relative;
+  }
+  .navlinks a:hover{ color:var(--text); }
+  .navlinks a::after{
+    content:''; position:absolute; left:0; bottom:-4px;
+    width:0; height:1px; background:var(--rose);
+    transition:width .25s ease;
+  }
+  .navlinks a:hover::after{ width:100%; }
+
+  @media (max-width:640px){ .navlinks{ display:none; } }
+
+  /* ---------- HERO ROBOT (pixel art) ---------- */
+  :root{ --plum:#22081a; --pink-soft:#ffc2d9; }
+
+  .hero-robot{
+    position:absolute;
+    top:110px;
+    right:0;
+    width:300px;
+    z-index:2;
+    pointer-events:none;
+  }
+  .hero-robot-inner{
+    width:100%;
+    animation:robot-bob 3.6s ease-in-out infinite;
+    filter:drop-shadow(0 0 26px var(--rose-glow));
+  }
+  .hero-robot-inner svg{
+    width:100%; height:auto; display:block;
+    shape-rendering:crispEdges;
+  }
+  .px-base{ fill:var(--rose); }
+  .px-shade{ fill:var(--rose-dim); }
+  .px-visor{ fill:var(--plum); }
+  .px-eye{
+    fill:var(--pink-soft);
+    animation:px-blink 3.2s ease-in-out infinite;
+    transform-origin:center;
+  }
+  .px-spark{ fill:var(--text); }
+  .px-heart{
+    fill:var(--pink-soft);
+    animation:px-heartbeat 1.4s ease-in-out infinite;
+    transform-origin:center;
+  }
+  .px-arm-l{ animation:px-arm-l 3.6s ease-in-out infinite; transform-origin:12px 14px; }
+  .px-arm-r{ animation:px-arm-r 3.6s ease-in-out infinite; transform-origin:19px 14px; }
+  .px-antenna{
+    fill:var(--pink-soft);
+    animation:px-glow 1.5s ease-in-out infinite;
+    transform-origin:center;
+  }
+
+  @keyframes robot-bob{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(-10px); }
+  }
+  @keyframes px-blink{
+    0%,86%,100%{ transform:scaleY(1); }
+    91%{ transform:scaleY(0.15); }
+  }
+  @keyframes px-heartbeat{
+    0%,100%{ transform:scale(1); }
+    50%{ transform:scale(1.22); }
+  }
+  @keyframes px-arm-l{
+    0%,100%{ transform:rotate(0deg); }
+    50%{ transform:rotate(-9deg); }
+  }
+  @keyframes px-arm-r{
+    0%,100%{ transform:rotate(0deg); }
+    50%{ transform:rotate(9deg); }
+  }
+  @keyframes px-glow{
+    0%,100%{ opacity:1; }
+    50%{ opacity:0.45; }
+  }
+
+  @media (max-width:900px){
+    .hero-robot{ width:180px; top:0; }
+  }
+  @media (max-width:640px){
+    .hero-robot{ width:130px; }
+  }
+  @media (max-width:480px){
+    .hero-robot{ display:none; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .hero-robot-inner, .px-eye, .px-heart, .px-arm-l, .px-arm-r, .px-antenna{
+      animation:none !important;
+    }
+  }
+
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:120px 0 100px;
+    position:relative;
+  }
+  .eyebrow{
+    font-size:12.5px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:var(--rose);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom:28px;
+  }
+  .eyebrow::before{
+    content:''; width:26px; height:1px; background:var(--rose);
+  }
+  h1.name{
+    font-family:var(--display);
+    font-weight:400;
+    font-size:clamp(48px, 9vw, 92px);
+    line-height:0.98;
+    letter-spacing:-1px;
+    color:var(--text);
+  }
+  h1.name em{
+    font-style:italic;
+    font-weight:300;
+    color:var(--text-dim);
+  }
+  .cursor{
+    display:inline-block;
+    width:0.5ch;
+    background:var(--rose);
+    margin-left:6px;
+    animation:blink 1.05s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .role-line{
+    margin-top:26px;
+    font-size:16px;
+    color:var(--text-dim);
+    max-width:520px;
+  }
+  .role-line strong{ color:var(--text); font-weight:500; }
+
+  .hero-cta{
+    margin-top:44px;
+    display:flex; gap:16px; flex-wrap:wrap;
+  }
+  .btn{
+    font-family:var(--mono);
+    font-size:13px;
+    padding:13px 24px;
+    border-radius:2px;
+    letter-spacing:0.3px;
+    transition:all .2s ease;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary{
+    background:var(--rose);
+    color:#140406;
+    font-weight:600;
+    box-shadow:0 0 0 0 var(--rose-glow);
+  }
+  .btn-primary:hover{
+    box-shadow:0 0 24px var(--rose-glow);
+    transform:translateY(-1px);
+  }
+  .btn-ghost{
+    border:1px solid var(--line);
+    color:var(--text-dim);
+  }
+  .btn-ghost:hover{
+    border-color:var(--rose-dim);
+    color:var(--text);
+  }
+
+  /* ---------- SECTION HEADINGS w/ signature underline ---------- */
+  .section{ padding:96px 0; border-top:1px solid var(--line); }
+  .section-head{ margin-bottom:52px; }
+  .section-num{
+    font-size:12px; color:var(--text-faint); letter-spacing:2px;
+    display:block; margin-bottom:14px;
+  }
+  h2.heading{
+    font-family:var(--display);
+    font-weight:400;
+    font-size:clamp(30px, 4vw, 42px);
+    position:relative;
+    display:inline-block;
+  }
+  h2.heading svg{
+    position:absolute;
+    left:-4px; bottom:-14px;
+    width:0%;
+    overflow:visible;
+    transition:width 1s cubic-bezier(.2,.7,.3,1);
+  }
+  h2.heading.in-view svg{ width:112%; }
+  h2.heading path{
+    stroke:var(--rose);
+    stroke-width:5;
+    fill:none;
+  }
+
+  /* ---------- ABOUT ---------- */
+  .about-grid{
+    display:grid; grid-template-columns:1.3fr 1fr; gap:64px;
+  }
+  @media (max-width:760px){ .about-grid{ grid-template-columns:1fr; gap:36px; } }
+  .about-text p{ color:var(--text-dim); font-size:15px; margin-bottom:16px; max-width:60ch; }
+  .about-text p strong{ color:var(--text); font-weight:500; }
+
+  .facts{ border-left:1px solid var(--line); padding-left:28px; }
+  .fact{ margin-bottom:22px; }
+  .fact-label{ font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-faint); margin-bottom:6px; }
+  .fact-value{ font-size:14.5px; color:var(--text); }
+
+  /* ---------- EXPERIENCE ---------- */
+  .timeline{ display:flex; flex-direction:column; }
+  .tl-item{
+    display:grid; grid-template-columns:120px 1fr; gap:32px;
+    padding:26px 0; border-top:1px solid var(--line);
+  }
+  .tl-item:first-child{ border-top:none; }
+  .tl-date{ font-size:12.5px; color:var(--text-faint); padding-top:3px; }
+  .tl-role{ font-family:var(--display); font-size:19px; font-weight:500; margin-bottom:6px; }
+  .tl-org{ color:var(--rose); font-size:13px; margin-bottom:10px; }
+  .tl-desc{ color:var(--text-dim); font-size:14px; max-width:64ch; }
+  @media (max-width:600px){ .tl-item{ grid-template-columns:1fr; gap:8px; } }
+
+  /* ---------- PROJECTS ---------- */
+  .proj-grid{
+    display:grid; grid-template-columns:repeat(2, 1fr); gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  @media (max-width:700px){ .proj-grid{ grid-template-columns:1fr; } }
+  .proj-card{
+    background:var(--bg);
+    padding:32px;
+    position:relative;
+    overflow:hidden;
+    transition:background .3s ease;
+  }
+  .proj-card::before{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(160deg, var(--rose-glow), transparent 55%);
+    opacity:0;
+    transition:opacity .35s ease;
+    pointer-events:none;
+  }
+  .proj-card:hover::before{ opacity:0.55; }
+  .proj-card:hover{ background:var(--surface); }
+  .proj-tag{ font-size:11px; letter-spacing:1.5px; text-transform:uppercase; color:var(--rose); margin-bottom:14px; }
+  .proj-title{ font-family:var(--display); font-size:22px; margin-bottom:10px; }
+  .proj-desc{ color:var(--text-dim); font-size:14px; margin-bottom:18px; }
+  .proj-stack{ display:flex; flex-wrap:wrap; gap:8px; margin-bottom:18px; }
+  .stack-pill{
+    font-size:11px; padding:4px 10px; border:1px solid var(--line);
+    color:var(--text-dim); border-radius:2px;
+  }
+  .proj-link{ font-size:12.5px; color:var(--text); border-bottom:1px solid var(--rose-dim); padding-bottom:2px; }
+  .proj-link:hover{ color:var(--rose); border-color:var(--rose); }
+
+  /* ---------- SKILLS ---------- */
+  .skills-wrap{ display:flex; flex-direction:column; gap:28px; }
+  .skill-row{ display:grid; grid-template-columns:160px 1fr; gap:24px; align-items:baseline; }
+  @media (max-width:600px){ .skill-row{ grid-template-columns:1fr; gap:8px; } }
+  .skill-cat{ font-size:12px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-faint); }
+  .skill-items{ display:flex; flex-wrap:wrap; gap:10px 22px; }
+  .skill-item{ font-size:14.5px; color:var(--text-dim); position:relative; padding-left:14px; }
+  .skill-item::before{
+    content:''; position:absolute; left:0; top:8px;
+    width:5px; height:5px; background:var(--rose); border-radius:50%;
+  }
+
+  /* ---------- CONTACT / FOOTER ---------- */
+  footer{ padding:100px 0 60px; border-top:1px solid var(--line); }
+  .contact-head{
+    font-family:var(--display);
+    font-size:clamp(32px, 6vw, 58px);
+    font-weight:400;
+    line-height:1.05;
+    max-width:720px;
+    margin-bottom:36px;
+  }
+  .contact-head em{ font-style:italic; color:var(--rose); }
+  .contact-links{ display:flex; flex-wrap:wrap; gap:14px; margin-bottom:80px; }
+
+  .foot-bottom{
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:28px; border-top:1px solid var(--line);
+    font-size:12px; color:var(--text-faint); flex-wrap:wrap; gap:12px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation:none !important; transition:none !important; scroll-behavior:auto !important; }
+  }
+
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="logo">yusra<span>.</span></div>
+    <div class="navlinks">
+      <a href="#about">About</a>
+      <a href="#experience">Experience</a>
+      <a href="#work">Work</a>
+      <a href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </nav>
+</header>
+
+<main>
+
+  <section class="hero wrap">
+    <div class="eyebrow">CS Student · AI, LLMs & RAG</div>
+    <div class="hero-robot" aria-hidden="true">
+      <div class="hero-robot-inner">
+        <svg viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg">
+          <!-- antenna -->
+          <rect class="px-antenna" x="14" y="0" width="4" height="2"/>
+          <rect class="px-shade" x="15" y="2" width="2" height="2"/>
+
+          <!-- head (staircase edges for pixel rounding) -->
+          <rect class="px-base" x="12" y="5" width="8" height="1"/>
+          <rect class="px-base" x="10" y="6" width="12" height="1"/>
+          <rect class="px-base" x="9"  y="7" width="14" height="6"/>
+          <rect class="px-base" x="10" y="13" width="12" height="1"/>
+          <rect class="px-base" x="12" y="14" width="8" height="1"/>
+
+          <!-- ears -->
+          <rect class="px-shade" x="7" y="8" width="2" height="4"/>
+          <rect class="px-shade" x="23" y="8" width="2" height="4"/>
+
+          <!-- visor -->
+          <rect class="px-visor" x="11" y="8" width="10" height="4"/>
+          <rect class="px-eye" x="12.5" y="9" width="2.5" height="2.5"/>
+          <rect class="px-eye" x="17" y="9" width="2.5" height="2.5"/>
+          <rect class="px-spark" x="13" y="9" width="1" height="1"/>
+          <rect class="px-spark" x="17.5" y="9" width="1" height="1"/>
+
+          <!-- neck -->
+          <rect class="px-shade" x="14" y="15" width="4" height="1"/>
+
+          <!-- torso -->
+          <rect class="px-base" x="9" y="16" width="14" height="1"/>
+          <rect class="px-base" x="8" y="17" width="16" height="10"/>
+          <rect class="px-base" x="9" y="27" width="14" height="1"/>
+
+          <!-- heart -->
+          <rect class="px-heart" x="13.5" y="20" width="2" height="1"/>
+          <rect class="px-heart" x="16.5" y="20" width="2" height="1"/>
+          <rect class="px-heart" x="13" y="21" width="6" height="1.6"/>
+          <rect class="px-heart" x="13.6" y="22.6" width="4.8" height="1.2"/>
+          <rect class="px-heart" x="14.4" y="23.8" width="3.2" height="1.2"/>
+          <rect class="px-heart" x="15.2" y="25" width="1.6" height="1"/>
+
+          <!-- arms -->
+          <g class="px-arm-l">
+            <rect class="px-base" x="5" y="17" width="3" height="3"/>
+            <rect class="px-shade" x="5" y="20" width="2" height="3"/>
+            <rect class="px-base" x="4.5" y="23" width="2.5" height="3"/>
+            <rect class="px-shade" x="4" y="26" width="3" height="2"/>
+          </g>
+          <g class="px-arm-r">
+            <rect class="px-base" x="24" y="17" width="3" height="3"/>
+            <rect class="px-shade" x="25" y="20" width="2" height="3"/>
+            <rect class="px-base" x="25" y="23" width="2.5" height="3"/>
+            <rect class="px-shade" x="25" y="26" width="3" height="2"/>
+          </g>
+
+          <!-- legs -->
+          <rect class="px-base" x="12" y="28" width="3" height="3"/>
+          <rect class="px-base" x="17" y="28" width="3" height="3"/>
+          <rect class="px-shade" x="12" y="31" width="3" height="3"/>
+          <rect class="px-shade" x="17" y="31" width="3" height="3"/>
+          <rect class="px-base" x="12" y="34" width="3" height="3"/>
+          <rect class="px-base" x="17" y="34" width="3" height="3"/>
+
+          <!-- feet -->
+          <rect class="px-shade" x="11" y="37" width="5" height="2"/>
+          <rect class="px-shade" x="16" y="37" width="5" height="2"/>
+        </svg>
+      </div>
+    </div>
+    <h1 class="name">Yusra<span class="cursor">&nbsp;</span></h1>
+    <p class="role-line">
+      Computer Science (AI) student building <strong>intelligent, context-aware applications</strong> —
+      RAG pipelines, LLM-integrated agents, and full-stack tools that go from notebook to deployed product.
+    </p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#work">View work →</a>
+      <a class="btn btn-ghost" href="#contact">Get in touch</a>
+    </div>
+  </section>
+
+  <section class="section wrap" id="about">
+    <div class="section-head">
+      <span class="section-num">01 / About</span>
+      <h2 class="heading">What I do<svg viewBox="0 0 220 16" preserveAspectRatio="none"><path d="M2 10 Q 55 2, 110 9 T 218 8"/></svg></h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm a <strong>Computer Science student</strong> based in the UK, studying artificial intelligence.
+          I like building things that are actually useful — apps that can understand and respond to
+          information in smart ways, not just look good.
+        </p>
+        <p>
+          I've worked on projects that predict outcomes from data, understand emotion in text, and build
+          chatbots that can search and recommend things intelligently. I care most about
+          <strong>finishing things properly</strong> — building something that works end to end, not just a
+          half-done experiment.
+        </p>
+        <p>
+          Right now I'm learning more about building and deploying full applications, and getting deeper
+          into how modern AI models actually work.
+        </p>
+      </div>
+
+      <div class="facts">
+        <div class="fact"><div class="fact-label">Based in</div><div class="fact-value">United Kingdom</div></div>
+        <div class="fact"><div class="fact-label">Studying</div><div class="fact-value">Computer Science (Artificial Intelligence)</div></div>
+        <div class="fact"><div class="fact-label">Focus</div><div class="fact-value">AI &amp; smart web apps</div></div>
+        <div class="fact"><div class="fact-label">Currently learning</div><div class="fact-value">Docker · TypeScript · PostgreSQL</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" id="experience">
+    <div class="section-head">
+      <span class="section-num">02 / Roadmap</span>
+      <h2 class="heading">Where I'm headed<svg viewBox="0 0 260 16" preserveAspectRatio="none"><path d="M2 10 Q 65 2, 130 9 T 258 8"/></svg></h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-date">Now</div>
+        <div>
+          <div class="tl-role">Core &amp; Workflow</div>
+          <div class="tl-org">TypeScript · PostgreSQL · Docker</div>
+          <div class="tl-desc">Rounding out full-stack fundamentals — typed frontends, relational data, and reproducible dev environments.</div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-date">Also</div>
+        <div>
+          <div class="tl-role">Graph RAG</div>
+          <div class="tl-org">Knowledge graphs · Hybrid retrieval</div>
+          <div class="tl-desc">Extending retrieval beyond flat vector search — combining graph traversal with embeddings for queries that need structured, relational context.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section wrap" id="work">
+    <div class="section-head">
+      <span class="section-num">03 / Selected Work</span>
+      <h2 class="heading">Things I've built<svg viewBox="0 0 280 16" preserveAspectRatio="none"><path d="M2 10 Q 70 2, 140 9 T 278 8"/></svg></h2>
+    </div>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-tag">RAG · Agents</div>
+        <div class="proj-title">CineRAG</div>
+        <p class="proj-desc">
+          A movie chatbot combining vector search and graph traversal for hybrid recommendation queries —
+          notes are chunked and cached at runtime, served through a serverless API on Vercel.
+        </p>
+        <div class="proj-stack">
+          <span class="stack-pill">JavaScript</span>
+          <span class="stack-pill">Vite</span>
+          <span class="stack-pill">RAG</span>
+          <span class="stack-pill">Vector + Graph Search</span>
+        </div>
+        <a class="proj-link" href="https://github.com/yusrababari/CineRAG" target="_blank" rel="noopener">View repository →</a>
+      </div>
+      <div class="proj-card">
+        <div class="proj-tag">NLP · Live Demo</div>
+        <div class="proj-title">Signal — Twitter Sentiment Analysis</div>
+        <p class="proj-desc">
+          A real-time sentiment engine that evaluates raw tweet text and classifies tone as positive,
+          negative, or neutral, with live visual breakdowns of the results.
+        </p>
+        <div class="proj-stack">
+          <span class="stack-pill">JavaScript</span>
+          <span class="stack-pill">NLP</span>
+          <span class="stack-pill">Vercel</span>
+        </div>
+        <a class="proj-link" href="https://github.com/yusrababari/Twitter-Sentiment-Analysis" target="_blank" rel="noopener">View repository →</a>
+      </div>
+      <div class="proj-card">
+        <div class="proj-tag">Machine Learning</div>
+        <div class="proj-title">Heart Disease ML Classifier</div>
+        <p class="proj-desc">
+          A classifier predicting presence of heart disease from the UCI clinical dataset — full pipeline
+          from EDA and feature engineering through model comparison.
+        </p>
+        <div class="proj-stack">
+          <span class="stack-pill">Python</span>
+          <span class="stack-pill">scikit-learn</span>
+          <span class="stack-pill">pandas</span>
+        </div>
+        <a class="proj-link" href="https://github.com/yusrababari/Heart-Disease-ML-Classifier" target="_blank" rel="noopener">View repository →</a>
+      </div>
+      <div class="proj-card">
+        <div class="proj-tag">Machine Learning</div>
+        <div class="proj-title">Titanic Survival Predictor</div>
+        <p class="proj-desc">
+          Predicts passenger survival on the Titanic using logistic regression and random forest models,
+          built and compared in a Jupyter workflow.
+        </p>
+        <div class="proj-stack">
+          <span class="stack-pill">Python</span>
+          <span class="stack-pill">pandas</span>
+          <span class="stack-pill">scikit-learn</span>
+        </div>
+        <a class="proj-link" href="https://github.com/yusrababari/Titanic-Survival-Predictor" target="_blank" rel="noopener">View repository →</a>
+      </div>
+    </div>
+    <div style="margin-top:24px;">
+      <a class="proj-link" href="https://github.com/yusrababari/Morse-Code-Raspberry-Pi" target="_blank" rel="noopener">Also: Morse-Code-Raspberry-Pi — a Python project for encoding/decoding Morse on a Raspberry Pi →</a>
+    </div>
+  </section>
+
+  <section class="section wrap" id="skills">
+    <div class="section-head">
+      <span class="section-num">04 / Skills</span>
+      <h2 class="heading">What I work with<svg viewBox="0 0 280 16" preserveAspectRatio="none"><path d="M2 10 Q 70 2, 140 9 T 278 8"/></svg></h2>
+    </div>
+    <div class="skills-wrap">
+      <div class="skill-row">
+        <div class="skill-cat">Languages</div>
+        <div class="skill-items">
+          <span class="skill-item">Python</span>
+          <span class="skill-item">JavaScript</span>
+          <span class="skill-item">HTML / CSS</span>
+          <span class="skill-item">SQL</span>
+          <span class="skill-item">C++</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-cat">Data &amp; ML</div>
+        <div class="skill-items">
+          <span class="skill-item">NumPy</span>
+          <span class="skill-item">Pandas</span>
+          <span class="skill-item">Matplotlib</span>
+          <span class="skill-item">Seaborn</span>
+          <span class="skill-item">TensorFlow</span>
+          <span class="skill-item">SciPy</span>
+          <span class="skill-item">scikit-learn</span>
+          <span class="skill-item">NLP</span>
+          <span class="skill-item">LangChain</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-cat">Deployment &amp; Tools</div>
+        <div class="skill-items">
+          <span class="skill-item">Flask</span>
+          <span class="skill-item">Streamlit</span>
+          <span class="skill-item">Vercel</span>
+          <span class="skill-item">Git &amp; GitHub</span>
+          <span class="skill-item">Jupyter</span>
+          <span class="skill-item">Vite</span>
+        </div>
+      </div>
+      <div class="skill-row">
+        <div class="skill-cat">Learning now</div>
+        <div class="skill-items">
+          <span class="skill-item">OpenAI API</span>
+          <span class="skill-item">Prompt Engineering</span>
+          <span class="skill-item">FAISS / Chroma</span>
+          <span class="skill-item">Docker</span>
+          <span class="skill-item">TypeScript</span>
+          <span class="skill-item">PostgreSQL</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="contact-head">Let's build something that <em>actually works</em>.</div>
+    <div class="contact-links">
+      <a class="btn btn-primary" href="mailto:hello@example.com">Email me →</a>
+      <a class="btn btn-ghost" href="https://github.com/yusrababari" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn btn-ghost" href="https://www.linkedin.com/in/yusrababari/" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Yusra</span>
+      <span>Built with care, not templates.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const headings = document.querySelectorAll('h2.heading');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){ e.target.classList.add('in-view'); }
+    });
+  }, { threshold: 0.4 });
+  headings.forEach(h=>io.observe(h));
+</script>
+
+</body>
+</html>
