@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yusra | Building with LLMs & RAG</title>
+<title>Yusra</title>
 <meta name="theme-color" content="#0a0708">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="icon" href="favicon.ico" sizes="any">
@@ -226,6 +226,24 @@
     max-width:520px;
   }
   .role-line strong{ color:var(--text); font-weight:500; }
+
+  .role-bullets{
+    list-style:none;
+    margin-top:14px;
+  }
+  .role-bullets li{
+    font-size:15px;
+    color:var(--text-dim);
+    position:relative;
+    padding-left:16px;
+  }
+  .role-bullets li::before{
+    content:'';
+    position:absolute; left:0; top:9px;
+    width:5px; height:5px;
+    background:var(--rose);
+    border-radius:50%;
+  }
 
   .hero-cta{
     margin-top:44px;
@@ -706,6 +724,9 @@
       Computer Science (AI) student building <strong>intelligent, context-aware applications</strong> —
       RAG pipelines, LLM-integrated agents, and full-stack tools that go from notebook to deployed product.
     </p>
+    <ul class="role-bullets">
+      <li>Aspiring AI Engineer</li>
+    </ul>
     <div class="hero-cta">
       <a class="btn btn-primary" href="#work">View work →</a>
       <a class="btn btn-ghost" href="#contact">Get in touch</a>
